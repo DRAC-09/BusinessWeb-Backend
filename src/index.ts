@@ -1,31 +1,41 @@
-import express, { Express, Request, Response } from 'express';                       // para peticiones y archivos.
-import dotenv from 'dotenv';                                                         // para gestionar las variables de entorno
-import { Database } from './utils/database';                                          // para conectar con la base de datos.
-// import bodyParser from 'body-parser';                                                // leer parametros a través de post.
-// import cors from 'cors';                                                             // para permitir peticiones desde otras paginas.
+import express, { Express, Request, Response } from 'express';                       // peticiones y archivos.
+import dotenv from 'dotenv';                                                         // gestionar las variables de entorno
+import cors from 'cors';                                                             // permite peticiones desde otros servidores,puertos, paginas.
+import morgan from 'morgan';                                                         // para ver las peticiones que se hacen a la base de datos.
+import path from 'path';                                                             // para gestionar las rutas de los archivos.                      
 
-
-import mongoose from 'mongoose';
-import empresasRouter from './routers/business.router';                              // para ramificar las rutas.
-
-
-dotenv.config();                                                                     // cargar las variables de entorno                                                      
-const database:Database = new Database();                                            // crear una instancia de la base de datos.
-const app: Express = express();                                                      // inicializar express
-const port = process.env.PORT;                                                       // obtener port del archivo .env
-
-
-// app.use(cors());                                                                     // cargar politicas de dominios cruzados                             
-// app.use(bodyParser.json());                                                          // cargar parametros a través de post.
-// app.use(bodyParser.urlencoded({ extended: true }));                                  // cargar parametros a través de post.
+import empresasRouter from './routers/business.router';                              // exportar el router de empresas.
+import { Database } from './utils/database';                                         // exporta la clase Database para poder usarla en el index.ts.
 
 
 
-// Rutas
+//=== Variables
+const app: Express = express();                                                      // inicializa express
+const port = process.env.PORT;                                                       // obtiene el puerto del archivo .env
+
+
+dotenv.config();                                                                     // carga las variables de entorno
+
+//=== Middlewares
+app.use(cors());                                                                     // cargar politicas de dominios cruzados                             
+app.use(morgan('dev'));                                                              // ver las peticiones a la base de datos desde la consola.
+app.use(express.json());                                                             // cargar parametros a través de post.
+
+
+
+
+
+
+//=== Rutas
 app.use('/empresas', empresasRouter);                                                // cargar el router de empresas.
 
 
-// Iniciar el servidor local.
+
+
+//=== crearmos una instancia y asi conectarnos a la base de datos.
+const database:Database = new Database(); 
+
+//=== Iniciar el servidor local.
 app.get('/', (req: Request, res: Response) => {
      res.send('Express + TypeScript Server');
 });

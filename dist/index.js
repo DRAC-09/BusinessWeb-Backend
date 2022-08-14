@@ -3,20 +3,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express")); // para peticiones y archivos.
-const dotenv_1 = __importDefault(require("dotenv")); // para gestionar las variables de entorno
-const database_1 = require("./utils/database"); // para conectar con la base de datos.
-const business_router_1 = __importDefault(require("./routers/business.router")); // para ramificar las rutas.
-dotenv_1.default.config(); // cargar las variables de entorno                                                      
-const database = new database_1.Database(); // crear una instancia de la base de datos.
-const app = (0, express_1.default)(); // inicializar express
-const port = process.env.PORT; // obtener port del archivo .env
-// app.use(cors());                                                                     // cargar politicas de dominios cruzados                             
-// app.use(bodyParser.json());                                                          // cargar parametros a través de post.
-// app.use(bodyParser.urlencoded({ extended: true }));                                  // cargar parametros a través de post.
-// Rutas
+const express_1 = __importDefault(require("express")); // peticiones y archivos.
+const dotenv_1 = __importDefault(require("dotenv")); // gestionar las variables de entorno
+const cors_1 = __importDefault(require("cors")); // permite peticiones desde otros servidores,puertos, paginas.
+const morgan_1 = __importDefault(require("morgan")); // para ver las peticiones que se hacen a la base de datos.
+const business_router_1 = __importDefault(require("./routers/business.router")); // exportar el router de empresas.
+const database_1 = require("./utils/database"); // exporta la clase Database para poder usarla en el index.ts.
+//=== Variables
+const app = (0, express_1.default)(); // inicializa express
+const port = process.env.PORT; // obtiene el puerto del archivo .env
+dotenv_1.default.config(); // carga las variables de entorno
+//=== Middlewares
+app.use((0, cors_1.default)()); // cargar politicas de dominios cruzados                             
+app.use((0, morgan_1.default)('dev')); // ver las peticiones a la base de datos desde la consola.
+app.use(express_1.default.json()); // cargar parametros a través de post.
+//=== Rutas
 app.use('/empresas', business_router_1.default); // cargar el router de empresas.
-// Iniciar el servidor local.
+//=== crearmos una instancia y asi conectarnos a la base de datos.
+const database = new database_1.Database();
+//=== Iniciar el servidor local.
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
