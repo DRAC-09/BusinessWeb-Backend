@@ -7,11 +7,14 @@ const express_1 = __importDefault(require("express")); // peticiones y archivos.
 const dotenv_1 = __importDefault(require("dotenv")); // gestionar las variables de entorno
 const cors_1 = __importDefault(require("cors")); // permite peticiones desde otros servidores,puertos, paginas.
 const morgan_1 = __importDefault(require("morgan")); // para ver las peticiones que se hacen a la base de datos.
+const body_parser_1 = __importDefault(require("body-parser")); // para gestionar las peticiones de los formularios.
 const business_router_1 = __importDefault(require("./routers/business.router")); // exportar el router de empresas.
 const database_1 = require("./utils/database"); // exporta la clase Database para poder usarla en el index.ts.
 //=== Variables
 const app = (0, express_1.default)(); // inicializa express
 const port = process.env.PORT; // obtiene el puerto del archivo .env
+app.use(body_parser_1.default.json()); // Permite que el servidor entienda json
+app.use(body_parser_1.default.urlencoded({ extended: true })); // Permite que el servidor entienda formularios
 dotenv_1.default.config(); // carga las variables de entorno
 //=== Middlewares
 app.use((0, cors_1.default)()); // cargar politicas de dominios cruzados                             
