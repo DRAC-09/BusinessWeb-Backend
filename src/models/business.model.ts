@@ -17,11 +17,11 @@ export interface empresa {
 }
 
 export interface Plan {
-     name: string;
-     pages: string;
-     blocks: string;
-     categories: string;
-     products: string;
+     name:          String;
+     pages:         String;
+     blocks:        String;
+     categories:    String;
+     products:      String;
 }
 
 export interface Array {

@@ -3,6 +3,8 @@ import dotenv from 'dotenv';                                                    
 import cors from 'cors';                                                             // permite peticiones desde otros servidores,puertos, paginas.
 import morgan from 'morgan';                                                         // para ver las peticiones que se hacen a la base de datos.
 import path from 'path';                                                             // para gestionar las rutas de los archivos.                      
+import bodyParser from 'body-parser';                                                // para gestionar las peticiones de los formularios.
+
 
 import empresasRouter from './routers/business.router';                              // exportar el router de empresas.
 import { Database } from './utils/database';                                         // exporta la clase Database para poder usarla en el index.ts.
@@ -12,7 +14,8 @@ import { Database } from './utils/database';                                    
 //=== Variables
 const app: Express = express();                                                      // inicializa express
 const port = process.env.PORT;                                                       // obtiene el puerto del archivo .env
-
+app.use(bodyParser.json());                                                          // Permite que el servidor entienda json
+app.use(bodyParser.urlencoded({ extended: true }));                                  // Permite que el servidor entienda formularios
 
 dotenv.config();                                                                     // carga las variables de entorno
 
@@ -20,7 +23,6 @@ dotenv.config();                                                                
 app.use(cors());                                                                     // cargar politicas de dominios cruzados                             
 app.use(morgan('dev'));                                                              // ver las peticiones a la base de datos desde la consola.
 app.use(express.json());                                                             // cargar parametros a través de post.
-
 
 
 
