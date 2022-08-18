@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.empresasSchema = void 0;
+exports.empresaSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcryptjs_1 = __importDefault(require("bcryptjs")); // importa el modulo de encriptacion de contraseñas.
 const schema = new mongoose_1.default.Schema({
@@ -26,9 +26,9 @@ const schema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    plan: (Array),
+    plan: String,
     info: (Array),
-    galery: Array,
+    gallery: (Array),
     pages: Array,
     blocks: Array,
     products: Array,
@@ -46,4 +46,5 @@ schema.methods.validatePassword = function (password) {
         return yield bcryptjs_1.default.compare(password, this.password); // compara la contraseña con la encriptada.
     });
 };
-exports.empresasSchema = mongoose_1.default.model('empresas', schema); // exportar el schema del tipo modelo "empresa".
+exports.empresaSchema = mongoose_1.default.model('empresas', schema); // exportar el schema del tipo modelo "empresa".
+//# sourceMappingURL=business.schema.js.map

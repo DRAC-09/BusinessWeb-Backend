@@ -1,0 +1,1 @@
+{"version":3,"file":"plans.schema.js","sourceRoot":"","sources":["../../src/models/plans.schema.ts"],"names":[],"mappings":";;;;;;AAAA,wDAAgC;AAIhC,MAAM,MAAM,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAO;IACpC,IAAI,EAAQ,MAAM;IAClB,KAAK,EAAO,MAAM;IAClB,UAAU,EAAE,MAAM;IAClB,MAAM,EAAM,MAAM;IAClB,QAAQ,EAAI,MAAM;CACtB,CAAC,CAAC;AAGU,QAAA,UAAU,GAAG,kBAAQ,CAAC,KAAK,CAAC,QAAQ,EAAE,MAAM,CAAC,CAAC"}

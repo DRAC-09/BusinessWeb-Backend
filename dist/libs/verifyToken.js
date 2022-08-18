@@ -16,3 +16,4 @@ const validateToken = (req, res, next) => {
 };
 exports.validateToken = validateToken;
 // OBS: para usar "req.userId" tenemos que externer la interfaz del objeto Request, lo cual haremos en el archivo "types.s.ts"
+//# sourceMappingURL=verifyToken.js.map

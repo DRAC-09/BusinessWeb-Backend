@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-//=== SCHEMA
-const schema = new mongoose_1.Schema({
+exports.adminSchema = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const bcryptjs_1 = __importDefault(require("bcryptjs")); // importa el modulo de encriptacion de contraseñas.
+const schema = new mongoose_1.default.Schema({
     email: {
         type: String,
         required: true,
@@ -26,23 +26,17 @@ const schema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    plan: (Array),
-    info: (Array),
-    galery: Array,
-    pages: Array,
-    blocks: Array,
-    products: Array,
-    others: Array,
-    videos: Array
 });
+//=== Encryptar contraseña.
 schema.methods.encrypPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    const salt = yield bcryptjs_1.default.genSalt(10);
-    return bcryptjs_1.default.hash(password, salt);
+    const salt = yield bcryptjs_1.default.genSalt(10); // genera un salt de 10 caracteres.
+    return bcryptjs_1.default.hash(password, salt); // encripta la contraseña.
 });
+//=== Validar contraseña.
 schema.methods.validatePassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield bcryptjs_1.default.compare(password, this.password);
+        return yield bcryptjs_1.default.compare(password, this.password); // compara la contraseña con la encriptada.
     });
 };
-exports.default = (0, mongoose_1.model)('Empresas', schema);
-//# sourceMappingURL=business.js.map
+exports.adminSchema = mongoose_1.default.model('administradores', schema); // exportar el schema del tipo modelo "empresa".
+//# sourceMappingURL=admin.schema.js.map
