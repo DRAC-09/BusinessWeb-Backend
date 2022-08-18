@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import { image } from "./gallery.model";
-import { empresa, Info} from "./business.model";                           // importa el modelo de empresa.
+import { admin} from "./admin.model";                           // importa el modelo de empresa.
 import bcrypt from "bcryptjs";                                                   // importa el modulo de encriptacion de contraseñas.
 
 
 
-const schema = new mongoose.Schema<empresa>({
+const schema = new mongoose.Schema<admin>({
      email:    {
           type:     String,
           required: true,
@@ -16,14 +15,6 @@ const schema = new mongoose.Schema<empresa>({
           type:     String,
           required: true,
      },
-     plan:     String,
-     info:     Array <Info>,
-     gallery:  Array <image>,
-     pages:    Array,
-     blocks:   Array,
-     products: Array,
-     others:   Array,
-     videos:   Array
 });
 
 
@@ -39,4 +30,4 @@ schema.methods.validatePassword = async function(password:string): Promise<boole
      return await bcrypt.compare(password, this.password);                                               // compara la contraseña con la encriptada.
 }
 
-export const empresaSchema = mongoose.model('empresas', schema);                                        // exportar el schema del tipo modelo "empresa".
+export const adminSchema = mongoose.model('administradores', schema);                                        // exportar el schema del tipo modelo "empresa".

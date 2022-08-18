@@ -1,36 +1,27 @@
-import bcrypt from "bcryptjs";                                                   // importa el modulo de encriptacion de contraseñas.
+import mongoose from "mongoose";
+import { image } from "./gallery.model";
 
 
 export interface empresa {
-     plan:     Plan;
+     plan:     string;
      info:     Info;
-     galery:   Array;
+     gallery:  Array <image>;
      email:    string;
-     pages:    Array;
-     blocks:   Array;
-     products: Array;
-     others:   Array;
-     videos:   Array;
+     pages:    any;
+     blocks:   any;
+     products: any;
+     others:   any;
+     videos:   any;
      password: string;
      encrypPassword (password: string): Promise<string>;                               // encripta la contraseña (definido en schema).
      validatePassword (password: string): Promise<boolean>;                               // compara la contraseña con la encriptada (definido en schema).
 }
 
-export interface Plan {
-     name:          String;
-     pages:         String;
-     blocks:        String;
-     categories:    String;
-     products:      String;
-}
-
-export interface Array {
-}
 
 export interface Info {
-     favicon:     string;
-     logo:        string;
-     description: string;
      name:        string;
      tittle:      string;
+     description: string;
+     logo:        string;
+     favicon:     string;
 }

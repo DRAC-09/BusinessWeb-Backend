@@ -14,18 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateEmpresa = exports.deleteEmpresa = exports.getEmpresa = exports.getEmpresas = exports.loginEmpresa = exports.registerEmpresa = exports.tokenTemp = void 0;
 const business_schema_1 = require("../models/business.schema"); // importa el schema de empresas
-// import Empresa, { IEmpresa } from '../models/business'
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken")); // permite crear tokens basados en el estandar de jsonwebtoken 
 // Variables globales.
 exports.tokenTemp = 'QuieroPasarDWconBuenaNOTA';
 // POST - Registra una empresa (sigip / registrar)
 const registerEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const empresa = new business_schema_1.empresasSchema({
+    const empresa = new business_schema_1.empresaSchema({
         email: req.body.email,
         password: req.body.password,
         plan: req.body.plan,
         info: req.body.info,
-        galery: req.body.galery,
+        gallery: req.body.galery,
         pages: req.body.pages,
         blocks: req.body.blocks,
         products: req.body.products,
@@ -36,36 +35,31 @@ const registerEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function
     const saveEmpresa = yield empresa.save(); // guarda el usuario.
     // Creando token
     const token = jsonwebtoken_1.default.sign({ _id: saveEmpresa._id }, process.env.TOKEN || exports.tokenTemp); // crea un token basado en el estandar de jsonwebtoken.
-    res.header('auth-token', token).json(saveEmpresa); // retorna el token y el usuario.
+    res.status(200).json({ token });
+    // res.header('auth-token', token).json(saveEmpresa);                                                                 // retorna el token y el usuario.
 });
 exports.registerEmpresa = registerEmpresa;
 // POST - Inicia sesión de una empresa (sigip / iniciarSesion)
 const loginEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield business_schema_1.empresasSchema.findOne({ email: req.body.email }); // busca el usuario por email.
+    const user = yield business_schema_1.empresaSchema.findOne({ email: req.body.email }); // busca el usuario por email.
     if (!user)
         return res.status(400).json('Correo y/o contraseña con incorrectos'); // si no existe el usuario, retorna un error.
-    const correctPassword = yield user.validatePassword(req.body.password); // valida la contraseña.
+    const correctPassword = yield user.validatePassword(req.body.password);
     if (!correctPassword)
         return res.status(400).json('Contraseña con invalida'); // si la contraseña es incorrecta, retorna un error.
     const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.TOKEN || exports.tokenTemp); // crea un token basado en el estandar de jsonwebtoken.                                                                          
-    res.header('auth-token', token).json(user); // retorna el token y el usuario.
+    res.header('auth-token', token).json({ user, token }); // retorna el token y el usuario.
 });
 exports.loginEmpresa = loginEmpresa;
 // GET - obtiene todas las empresas.
-const getEmpresas = (req, res) => {
-    business_schema_1.empresasSchema.find().then(result => {
-        result.forEach(element => {
-            element.password = 'No se Muestra XD';
-        });
-        res.send(result);
-        res.end();
-    })
-        .catch(error => console.error(error));
-};
+const getEmpresas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const empresa = yield business_schema_1.empresaSchema.find();
+    res.json(empresa); // retorna los administradores.
+});
 exports.getEmpresas = getEmpresas;
 // GET - obtiene una empresa por id
 const getEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield business_schema_1.empresasSchema.findById(req.params.id, { password: 0 });
+    const user = yield business_schema_1.empresaSchema.findById(req.params.id, { password: 0 });
     if (!user) {
         return res.status(404).json('Empresa no encontrada');
     }
@@ -74,7 +68,7 @@ const getEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getEmpresa = getEmpresa;
 // DELETE - elimina una empresa.
 const deleteEmpresa = (req, res) => {
-    business_schema_1.empresasSchema.findByIdAndDelete(req.params.id).then(result => {
+    business_schema_1.empresaSchema.findByIdAndDelete(req.params.id).then(result => {
         res.send(result);
         res.end();
     }).catch(error => console.error(error));
@@ -82,12 +76,12 @@ const deleteEmpresa = (req, res) => {
 exports.deleteEmpresa = deleteEmpresa;
 // update - actualiza una empresa.
 const updateEmpresa = (req, res) => {
-    business_schema_1.empresasSchema.updateOne({ _id: req.params.id }, {
+    business_schema_1.empresaSchema.updateOne({ _id: req.params.id }, {
         email: req.body.email,
         password: req.body.password,
         plan: req.body.plan,
         info: req.body.info,
-        galery: req.body.galery,
+        gallery: req.body.galery,
         pages: req.body.pages,
         blocks: req.body.blocks,
         products: req.body.products,
@@ -102,3 +96,4 @@ const updateEmpresa = (req, res) => {
     });
 };
 exports.updateEmpresa = updateEmpresa;
+//# sourceMappingURL=business.controller.js.map

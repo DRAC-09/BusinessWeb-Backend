@@ -7,15 +7,19 @@ import bodyParser from 'body-parser';                                           
 
 
 import empresasRouter from './routers/business.router';                              // exportar el router de empresas.
+import adminsRouter from './routers/admin.router';                                   // exportar el router de empresas.
+import plansRouter from './routers/plan.router';                                     // exportar el router de empresas.
 import { Database } from './utils/database';                                         // exporta la clase Database para poder usarla en el index.ts.
 
 
 
 //=== Variables
 const app: Express = express();                                                      // inicializa express
-const port = process.env.PORT;                                                       // obtiene el puerto del archivo .env
-app.use(bodyParser.json());                                                          // Permite que el servidor entienda json
-app.use(bodyParser.urlencoded({ extended: true }));                                  // Permite que el servidor entienda formularios
+const port = process.env.PORT;
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));                                                       // obtiene el puerto del archivo .env
+// app.use(bodyParser.json());                                                          // Permite que el servidor entienda json
+// app.use(bodyParser.urlencoded({ extended: true }));                                  // Permite que el servidor entienda formularios
 
 dotenv.config();                                                                     // carga las variables de entorno
 
@@ -30,6 +34,8 @@ app.use(express.json());                                                        
 
 //=== Rutas
 app.use('/empresas', empresasRouter);                                                // cargar el router de empresas.
+app.use('/admin', adminsRouter);                                                // cargar el router de empresas.
+app.use('/plan', plansRouter);                                                // cargar el router de empresas.
 
 
 
@@ -45,3 +51,4 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
      console.log(`⚡️Servidor Levantado en https://localhost:${port}`);
 });
+

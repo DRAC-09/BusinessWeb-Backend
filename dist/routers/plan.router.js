@@ -27,21 +27,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express")); // para peticiones y archivos.
-const e = __importStar(require("../controllers/business.controller")); // exportamos todo del controlador business.
-const g = __importStar(require("../controllers/gallery.controller")); // exportamos todo del controlador business.
+const p = __importStar(require("../controllers/planes.controller")); // exportamos todo del controlador business.
 const router = express_1.default.Router(); // para ramificar las rutas.
-//=== Rutas
-router.post('/register-empresa', e.registerEmpresa); // POST - login de administrador.
-router.post('/login-empresa', e.loginEmpresa); // POST - login de empresa.
-//=== Rutas para administrar las Empresas.
-router.get('/', e.getEmpresas); // GET - obtener todas las empresas.
-router.get('/:id', e.getEmpresa); // GET - obtener una empresa por id.
-router.put('/:id', e.updateEmpresa); // PUT - actualizar una empresa.
-router.delete('/:id', e.deleteEmpresa); // DELETE - eliminar una empresa.
-//=== Rutas para administrar la galeria
-router.put('/:id/gallery', g.addImagen); // PUT - Agregar imagen a la galeria.
-router.get('/:id/gallery', g.getGallery); // GET - obtener la galeria de una empresa.
-router.get('/gallery/:id', g.getImagen); // GET - obtener una empresa por id.
-// router.delete('/:id/gallery/:idImg', g.deleteImagen);                             // DELETE - eliminar una imagen.
-exports.default = router; // exportar el router.
-//# sourceMappingURL=business.router.js.map
+router.get('/', p.getAllPlans); // GET - obtener todas los planes.
+router.get('/:id', p.getPlan); // GET - obtener un planes.
+router.put('/:id', p.updatePlan); // PUT - actualizar un planes.
+exports.default = router;
+//# sourceMappingURL=plan.router.js.map
